@@ -28,46 +28,58 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.daleGo = new System.Windows.Forms.Button();
-            this.SuspendLayout();
+            panel1 = new Panel();
+            daleGo = new Button();
+            saveDat = new Button();
+            SuspendLayout();
             // 
             // panel1
             // 
-            this.panel1.Location = new System.Drawing.Point(10, 10);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1500, 400);
-            this.panel1.TabIndex = 0;
-            this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
-            this.panel1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseClick);
+            panel1.Location = new Point(10, 10);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(1500, 400);
+            panel1.TabIndex = 0;
+            panel1.Paint += panel1_Paint;
+            panel1.MouseClick += panel1_MouseClick;
             // 
             // daleGo
             // 
-            this.daleGo.Location = new System.Drawing.Point(1435, 426);
-            this.daleGo.Name = "daleGo";
-            this.daleGo.Size = new System.Drawing.Size(75, 23);
-            this.daleGo.TabIndex = 1;
-            this.daleGo.Text = "Calcular";
-            this.daleGo.UseVisualStyleBackColor = true;
-            this.daleGo.Click += new System.EventHandler(this.daleGo_Click);
+            daleGo.Location = new Point(1435, 426);
+            daleGo.Name = "daleGo";
+            daleGo.Size = new Size(75, 23);
+            daleGo.TabIndex = 1;
+            daleGo.Text = "Calcular";
+            daleGo.UseVisualStyleBackColor = true;
+            daleGo.Click += daleGo_Click;
+            // 
+            // saveDat
+            // 
+            saveDat.Location = new Point(1325, 426);
+            saveDat.Name = "saveDat";
+            saveDat.Size = new Size(104, 23);
+            saveDat.TabIndex = 2;
+            saveDat.Text = "Guardar Datos";
+            saveDat.UseVisualStyleBackColor = true;
+            saveDat.Click += saveDat_Click;
             // 
             // DibujarCadena
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1584, 461);
-            this.Controls.Add(this.daleGo);
-            this.Controls.Add(this.panel1);
-            this.Name = "DibujarCadena";
-            this.Text = "DibujarCadena";
-            this.Load += new System.EventHandler(this.DibujarCadena_Load);
-            this.ResumeLayout(false);
-
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(1584, 461);
+            Controls.Add(saveDat);
+            Controls.Add(daleGo);
+            Controls.Add(panel1);
+            Name = "DibujarCadena";
+            Text = "DibujarCadena";
+            Load += DibujarCadena_Load;
+            ResumeLayout(false);
         }
 
         #endregion
 
         private Panel panel1;
         private Button daleGo;
+        private Button saveDat;
     }
 }
