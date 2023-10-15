@@ -1,4 +1,5 @@
 
+using System.IO;
 using System.Security;
 using System.Text;
 using System.Text.Json;
@@ -35,7 +36,7 @@ namespace Regla30
                 cel.PorcentajeRandom = hScrollBar1.Value;
                 //string jsonString = JsonSerializer.Serialize(cel);
                 //File.WriteAllText("C:\\Users\\Iljim\\Desktop\\datos.json", jsonString);
-                regl.conversion();
+                regl.conversion(0, 0);
                 if (comprovacion()) MessageBox.Show("Algun campo no esta llenado correctamente");
                 else canvas.ShowDialog();
             }
@@ -193,6 +194,58 @@ namespace Regla30
             cel.PorcentajeRandom = hScrollBar1.Value;
             Canvas canvas = new Canvas(cel, inte);
             canvas.ShowDialog();
+        }
+
+        private void allBut_Click(object sender, EventArgs e)
+        {
+            Canvas canvas = new Canvas(cel, inte);
+            Utilidades.Reglas regl = new(cel, inte);
+            Utilidades.TodasReglas rrr = new();
+            rrr.borrarRutas(1);
+            rrr.crearRutas(1);
+            rrr.borrarRutas(2);
+            rrr.crearRutas(2);
+            cel.NumeroMayor = 255;
+            cel.T = 1000;
+            cel.TamCadena = 1000;
+            cel.Fondo = Color.White;
+            cel.Celula = Color.Black;
+            for (int i = 0; i < 4; i++)
+            {
+                switch (i)
+                {
+                    case 0:
+                        cel.Cadena = rand.GenerateRandomBinaryString(1000, 0.02);
+                        cel.PorcentajeRandom = 2;
+                        break;
+                    case 1:
+                        cel.Cadena = rand.GenerateRandomBinaryString(1000, 0.5);
+                        cel.PorcentajeRandom = 50;
+                        break;
+                    case 2:
+                        cel.Cadena = rand.GenerateRandomBinaryString(1000, 0.75);
+                        cel.PorcentajeRandom = 75;
+                        break;
+                    case 3:
+                        cel.Cadena = rand.GenerateRandomBinaryString(1000, 0.95);
+                        cel.PorcentajeRandom = 95;
+                        break;
+                }
+                for (int j = 0; j < 256; j++)
+                {
+                    cel.Regla = j;
+                    string jsonBuilder = JsonSerializer.Serialize(cel);
+                    rrr.crearArchivos(1, jsonBuilder, j, cel.PorcentajeRandom);
+                    regl.conversion(j, cel.PorcentajeRandom);
+                }
+            }
+            canvas.ShowDialog();
+        }
+
+        private void grafics_Click(object sender, EventArgs e)
+        {
+            Canvas cs = new(cel, inte);
+            cs.ShowDialog();
         }
     }
 }

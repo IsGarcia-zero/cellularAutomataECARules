@@ -1,15 +1,19 @@
 ﻿using Regla30.Objetos;
+using Regla30.Utilidades;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Rebar;
 
 namespace Regla30
 {
@@ -53,13 +57,36 @@ namespace Regla30
                 cel.Celula = colorDialog1.Color;
             }
         }
-        private void pintarMatriz()
+        private void pintarMatriz(int irl, double jrl)
         {
-            longitudPixel = (cel.TamCadena > 1000 || cel.T > 1000) ? (22501 / Math.Max(cel.TamCadena, cel.T)) : (originalHeight / Math.Max(cel.T, cel.TamCadena));
+            StringBuilder pathPro = new();
+            string path2 = "C:\\Users\\Iljim\\Desktop\\AutomatasCelularesInfo\\Normal\\Valores";
+            string path3 = "C:\\Users\\Iljim\\Desktop\\AutomatasCelularesInfo\\Normal\\Imagenes";
+            longitudPixel = (cel.TamCadena > 1000 || cel.T > 1000) ? (Math.Max(cel.TamCadena, cel.T) / Math.Max(cel.TamCadena, cel.T)) : (originalHeight / Math.Max(cel.T, cel.TamCadena));
             Bitmap bmp = (cel.TamCadena > 1000 || cel.T > 1000) ? new Bitmap(cel.TamCadena + 1, cel.T + 1) : new Bitmap(originalWidth, originalHeight);
+            if (irl != 265 || jrl != 265)
+            {
+                try
+                {
+                    StringBuilder pathPro2 = new();
+                    pathPro2.Append(path2 + "\\" + irl + "\\Archivo" + jrl + "pp.txt");
+                    var sr = new StreamReader(pathPro2.ToString());
+                    string jsonString = sr.ReadToEnd();
+                    inte.CadenasReales = jsonString.Split("\n");
+                    sr.Close();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                    MessageBox.Show(ex.Message);
+                }
+
+            }
             for (int x = 0; x < inte.CadenasReales.Length; x++)
             {
+
                 String s = inte.CadenasReales[x];
+
                 for (int y = 0; y < s.Length; y++)
                 {
                     if (s[y] == '0')
@@ -73,18 +100,24 @@ namespace Regla30
                 }
             }
             dibujoAutomata.Image = bmp;
+            pathPro.Append(path3 + "\\" + irl + "\\Archivo" + jrl + "pp.png");
             Bitmap originalImagen = (Bitmap)dibujoAutomata.Image;
             originalImagen.RotateFlip(RotateFlipType.Rotate90FlipNone);
             dibujoAutomata.Image = originalImagen;
             originalWidth = dibujoAutomata.Image.Width;
             originalHeight = dibujoAutomata.Image.Height;
+            if (irl != 265 || jrl != 265)
+            {
+                dibujoAutomata.Image.Save(pathPro.ToString());
+                if (irl == 255 && jrl == 95) Console.Beep();
+            }
             //dibujoAutomata.Image.Save("C:\\Users\\Iljim\\Desktop\\log2.png");
         }
         private void pintarPixel(Bitmap bmp, int x, int y, Color color)
         {
 
 
-            int pixelSize = (cel.TamCadena > 1000 || cel.T > 1000) ? (22501 / Math.Max(cel.TamCadena, cel.T)) : (originalHeight / Math.Max(cel.T, cel.TamCadena));
+            int pixelSize = (cel.TamCadena > 1000 || cel.T > 1000) ? (Math.Max(cel.TamCadena, cel.T) / Math.Max(cel.TamCadena, cel.T)) : (originalHeight / Math.Max(cel.T, cel.TamCadena));
 
             int startX = x * pixelSize;
             int startY = y * pixelSize;
@@ -104,7 +137,7 @@ namespace Regla30
         }
         private void iniciar_Click(object sender, EventArgs e)
         {
-            pintarMatriz();
+            pintarMatriz(265, 265);
             dibujoAutomata.Focus();
         }
         private void Canvas_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
@@ -171,6 +204,121 @@ namespace Regla30
                 nombreArchivo = saveFileDialog1.FileName;
                 File.WriteAllText(nombreArchivo, sr.ToString());
             }
+        }
+
+        private void allImag_Click(object sender, EventArgs e)
+        {
+            Stopwatch timer = new();
+            timer.Start();
+            Utilidades.TodasReglas rrr = new();
+            rrr.borrarRutas(3);
+            rrr.crearRutas(3);
+            double gg = 0;
+            for (int i = 0; i < 4; i++)
+            {
+                switch (i)
+                {
+                    case 0:
+                        gg = 2;
+                        break;
+                    case 1:
+                        gg = 50;
+                        break;
+                    case 2:
+                        gg = 75;
+                        break;
+                    case 3:
+                        gg = 95;
+                        break;
+                }
+                for (int j = 0; j < 256; j++)
+                {
+                    pintarMatriz(j, gg);
+                }
+            }
+            timer.Stop();
+            TimeSpan tiempoTardado = timer.Elapsed;
+            MessageBox.Show($"Se tardo {tiempoTardado} en dibujar todos los estados de los automatas");
+        }
+
+        private void grfcs_Click(object sender, EventArgs e)
+        {
+            Stopwatch timer = new();
+            timer.Start();
+            Utilidades.TodasReglas rrr = new();
+            rrr.borrarRutas(5);
+            rrr.crearRutas(5);
+            double gg = 0;
+            for (int i = 0; i < 4; i++)
+            {
+                switch (i)
+                {
+                    case 0:
+                        gg = 2;
+                        break;
+                    case 1:
+                        gg = 50;
+                        break;
+                    case 2:
+                        gg = 75;
+                        break;
+                    case 3:
+                        gg = 95;
+                        break;
+                }
+                for (int j = 0; j < 256; j++)
+                {
+                    recorridoCadenas(j, gg);
+                }
+            }
+            timer.Stop();
+            TimeSpan tiempoTardado = timer.Elapsed;
+            MessageBox.Show($"Se tardo {tiempoTardado} en dibujar todos los estados de los automatas");
+        }
+        private void recorridoCadenas(int irl, double jrl)
+        {
+            CalculoGrafs calcrr = new(inte, cel);
+            Utilidades.TodasReglas rrr = new();
+            string path2 = "C:\\Users\\Iljim\\Desktop\\AutomatasCelularesInfo\\Normal\\Valores";
+            string path5 = "C:\\Users\\Iljim\\Desktop\\AutomatasCelularesInfo\\Normal\\CSVs";
+            if (irl != 265 || jrl != 265)
+            {
+                try
+                {
+                    StringBuilder pathPro2 = new();
+                    pathPro2.Append(path2 + "\\" + irl + "\\Archivo" + jrl + "pp.txt");
+                    var sr = new StreamReader(pathPro2.ToString());
+                    string jsonString = sr.ReadToEnd();
+                    jsonString = jsonString.TrimEnd('\r', '\n');
+                    inte.CadenasReales = jsonString.Split("\n");
+                    sr.Close();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                    MessageBox.Show(ex.Message);
+                }
+                StringBuilder sss = new();
+
+                for (int i = 0; i < inte.CadenasReales.Length; i++)
+                {
+                    Int64 num = 0;
+                    Double logn = 0, shanon = 0;
+                    String s = inte.CadenasReales[i];
+                    num = calcrr.densidad1s(s);
+                    logn = calcrr.densidad1sLog(num);
+                    shanon = calcrr.entriopiaShanon(s);
+                    sss.Append(i + "," + num + "," + logn + "," + shanon + "," + s + "\n");
+                }
+
+                rrr.crearArchivos(5, sss.ToString(), irl, jrl);
+            }
+        }
+
+        private void graphsss_Click(object sender, EventArgs e)
+        {
+            App.Graficas graficas = new(inte, cel);
+            graficas.ShowDialog();
         }
     }
 }

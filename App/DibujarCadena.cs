@@ -90,7 +90,7 @@ namespace Regla30.App
                 sb.Append(s ? "1" : "0");
             }
             cel.Cadena = sb.ToString();
-            regl.conversion();
+            regl.conversion(0,0);
             canvas.Show();
             this.Hide();
         }

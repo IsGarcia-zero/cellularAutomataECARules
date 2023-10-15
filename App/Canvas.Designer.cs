@@ -36,6 +36,9 @@
             iniciar = new Button();
             button1 = new Button();
             guardarSolucion = new Button();
+            allImag = new Button();
+            grfcs = new Button();
+            graphsss = new Button();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dibujoAutomata).BeginInit();
             SuspendLayout();
@@ -110,11 +113,44 @@
             guardarSolucion.UseVisualStyleBackColor = true;
             guardarSolucion.Click += guardarSolucion_Click;
             // 
+            // allImag
+            // 
+            allImag.Location = new Point(1019, 157);
+            allImag.Name = "allImag";
+            allImag.Size = new Size(103, 23);
+            allImag.TabIndex = 6;
+            allImag.Text = "Obtener todas las imagenes";
+            allImag.UseVisualStyleBackColor = true;
+            allImag.Click += allImag_Click;
+            // 
+            // grfcs
+            // 
+            grfcs.Location = new Point(1019, 186);
+            grfcs.Name = "grfcs";
+            grfcs.Size = new Size(103, 23);
+            grfcs.TabIndex = 7;
+            grfcs.Text = "graficas";
+            grfcs.UseVisualStyleBackColor = true;
+            grfcs.Click += grfcs_Click;
+            // 
+            // graphsss
+            // 
+            graphsss.Location = new Point(1019, 215);
+            graphsss.Name = "graphsss";
+            graphsss.Size = new Size(103, 23);
+            graphsss.TabIndex = 8;
+            graphsss.Text = "Graficas Pro";
+            graphsss.UseVisualStyleBackColor = true;
+            graphsss.Click += graphsss_Click;
+            // 
             // Canvas
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1134, 1061);
+            Controls.Add(graphsss);
+            Controls.Add(grfcs);
+            Controls.Add(allImag);
             Controls.Add(guardarSolucion);
             Controls.Add(button1);
             Controls.Add(iniciar);
@@ -140,5 +176,8 @@
         private Button iniciar;
         private Button button1;
         private Button guardarSolucion;
+        private Button allImag;
+        private Button grfcs;
+        private Button graphsss;
     }
 }

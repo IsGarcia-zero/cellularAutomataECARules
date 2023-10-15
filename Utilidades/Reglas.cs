@@ -11,11 +11,12 @@ namespace Regla30.Utilidades
     {
         Intermedios inter;
         Objetos.Celulas cel;
+        TodasReglas todasrrr = new();
         public Reglas(Celulas cel, Intermedios inter) { 
             this.cel = cel;
             this.inter = inter;
         }
-        public void conversion() {
+        public void conversion(int irl, double jrl) {
             String reglaConvertida = Convert.ToString(cel.Regla, 2).Trim();
             int mayo = 0;
             switch (cel.NumeroMayor) {
@@ -143,10 +144,15 @@ namespace Regla30.Utilidades
             }
             inter.ReglaComponentes = componentes;
             inter.CadenasReales = conjuntoResultados();
+            StringBuilder otroSting = new();
             foreach (String s in inter.CadenasReales) {
-                File.AppendAllText("C:\\Users\\Iljim\\Desktop\\log.txt", s+"\n");
+                otroSting.AppendLine(s);
             }
-            Console.Beep(100, 5000);
+            todasrrr.crearArchivos(2, otroSting.ToString(), irl, jrl);
+            if ((irl == 255&&jrl == 95) || cel.T > 5000 || cel.TamCadena> 5000)
+            {
+                Console.Beep(100, 5000);
+            }
         }
         private String[] conjuntoResultados() {
             String[] final = new String[cel.T + 1];

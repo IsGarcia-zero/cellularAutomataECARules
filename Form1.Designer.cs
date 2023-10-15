@@ -49,6 +49,8 @@
             cargarDatos = new Button();
             openFileDialog1 = new OpenFileDialog();
             button1 = new Button();
+            allBut = new Button();
+            grafics = new Button();
             SuspendLayout();
             // 
             // canvas
@@ -219,11 +221,33 @@
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
             // 
+            // allBut
+            // 
+            allBut.Location = new Point(12, 12);
+            allBut.Name = "allBut";
+            allBut.Size = new Size(134, 23);
+            allBut.TabIndex = 18;
+            allBut.Text = "Simular las 256 reglas";
+            allBut.UseVisualStyleBackColor = true;
+            allBut.Click += allBut_Click;
+            // 
+            // grafics
+            // 
+            grafics.Location = new Point(325, 84);
+            grafics.Name = "grafics";
+            grafics.Size = new Size(123, 23);
+            grafics.TabIndex = 19;
+            grafics.Text = "Ver Graficas";
+            grafics.UseVisualStyleBackColor = true;
+            grafics.Click += grafics_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(460, 273);
+            Controls.Add(grafics);
+            Controls.Add(allBut);
             Controls.Add(button1);
             Controls.Add(cargarDatos);
             Controls.Add(datosSave);
@@ -271,5 +295,7 @@
         private Button cargarDatos;
         private OpenFileDialog openFileDialog1;
         private Button button1;
+        private Button allBut;
+        private Button grafics;
     }
 }
