@@ -51,6 +51,7 @@
             button1 = new Button();
             allBut = new Button();
             grafics = new Button();
+            latexGen = new Button();
             SuspendLayout();
             // 
             // canvas
@@ -241,11 +242,22 @@
             grafics.UseVisualStyleBackColor = true;
             grafics.Click += grafics_Click;
             // 
+            // latexGen
+            // 
+            latexGen.Location = new Point(12, 84);
+            latexGen.Name = "latexGen";
+            latexGen.Size = new Size(124, 23);
+            latexGen.TabIndex = 20;
+            latexGen.Text = "Generar Latex";
+            latexGen.UseVisualStyleBackColor = true;
+            latexGen.Click += latexGen_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(460, 273);
+            Controls.Add(latexGen);
             Controls.Add(grafics);
             Controls.Add(allBut);
             Controls.Add(button1);
@@ -297,5 +309,6 @@
         private Button button1;
         private Button allBut;
         private Button grafics;
+        private Button latexGen;
     }
 }

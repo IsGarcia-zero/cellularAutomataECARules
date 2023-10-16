@@ -1,4 +1,7 @@
 
+using Regla30.App;
+using Regla30.Objetos;
+using Regla30.Utilidades;
 using System.IO;
 using System.Security;
 using System.Text;
@@ -244,8 +247,52 @@ namespace Regla30
 
         private void grafics_Click(object sender, EventArgs e)
         {
-            Canvas cs = new(cel, inte);
-            cs.ShowDialog();
+            Utilidades.Reglas regl = new(cel, inte);
+            Grafo grafo = new(cel, inte);
+            try
+            {
+                cel.Regla = Convert.ToInt32(regla.Text);
+                cel.NumeroMayor = Convert.ToInt64(listBox1.Text);
+                cel.T = Convert.ToInt32(tamanoCanvas.Text);
+                cel.Cadena = cadenosa.Text;
+                cel.TamCadena = cadenosa.Text.Length;
+                cel.Fondo = cel.Celula.Equals(Color.White) ? Color.Black : Color.White;
+                cel.Celula = cel.Fondo.Equals(Color.White) ? Color.Black : Color.White;
+                cel.PorcentajeRandom = hScrollBar1.Value;
+                //string jsonString = JsonSerializer.Serialize(cel);
+
+                if (comprovacion()) MessageBox.Show("Algun campo no esta llenado correctamente");
+                else grafo.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void latexGen_Click(object sender, EventArgs e)
+        {
+            TodasReglas rrrr = new();
+            StringBuilder latexContent = rrrr.generarL();
+            //Escribir el string en un archivo
+            string nombreArchivo = "C:\\Users\\Iljim\\Desktop\\AutomatasCelularesInfo\\Anexo.tex";
+            using (StreamWriter writer = new StreamWriter(nombreArchivo))
+            {
+                int chunkSize = 4096; // Tamaño del trozo a escribir (puedes ajustar esto según sea necesario)
+                int index = 0;
+
+                while (index < latexContent.Length)
+                {
+                    int remainingLength = latexContent.Length - index;
+                    int writeLength = Math.Min(chunkSize, remainingLength);
+
+                    writer.Write(latexContent.ToString(index, writeLength));
+
+                    index += writeLength;
+                }
+            }
+
         }
     }
 }

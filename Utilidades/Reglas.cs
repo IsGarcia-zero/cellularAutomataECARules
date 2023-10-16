@@ -208,5 +208,46 @@ namespace Regla30.Utilidades
                 return "0";
             }
         }
+        public List<List<AtractorInfo>> ObtenerAtractoresEnTodasLasGeneraciones(int irl, double jrl)
+        {
+            conversion(irl, jrl);
+
+            List<List<AtractorInfo>> atractoresPorGeneracion = new List<List<AtractorInfo>>();
+
+            // Buscar atractores en cada generación
+            for (int i = 0; i < inter.CadenasReales.Length; i++)
+            {
+                List<AtractorInfo> atractores = BuscarAtractores(inter.CadenasReales[i]);
+                atractoresPorGeneracion.Add(atractores);
+            }
+
+            return atractoresPorGeneracion;
+        }
+        private List<AtractorInfo> BuscarAtractores(string cadena)
+        {
+            List<AtractorInfo> atractores = new List<AtractorInfo>();
+            Dictionary<string, int> frecuencia = new Dictionary<string, int>();
+
+            for (int i = 0; i < cadena.Length; i++)
+            {
+                for (int j = i + 1; j <= cadena.Length; j++)
+                {
+                    string subcadena = cadena.Substring(i, j - i);
+                    if (frecuencia.ContainsKey(subcadena))
+                    {
+                        int inicio = frecuencia[subcadena];
+                        int longitud = i - inicio;
+                        atractores.Add(new AtractorInfo { Inicio = inicio, Longitud = longitud, Atractor = subcadena });
+                    }
+                    else
+                    {
+                        frecuencia[subcadena] = i;
+                    }
+                }
+            }
+
+            return atractores;
+        }
+
     }
 }
