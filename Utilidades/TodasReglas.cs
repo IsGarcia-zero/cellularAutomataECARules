@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Regla30.Objetos;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -10,30 +11,26 @@ namespace Regla30.Utilidades
 {
     public class TodasReglas
     {
+        private Paths paths = new();
         public void crearRutas(int n) {
-            string path1 = "C:\\Users\\Iljim\\Desktop\\AutomatasCelularesInfo\\Normal\\Configuraciones";
-            string path2 = "C:\\Users\\Iljim\\Desktop\\AutomatasCelularesInfo\\Normal\\Valores";
-            string path3 = "C:\\Users\\Iljim\\Desktop\\AutomatasCelularesInfo\\Normal\\Imagenes";
-            string path4 = "C:\\Users\\Iljim\\Desktop\\AutomatasCelularesInfo\\Normal\\Grafics";
-            string path5 = "C:\\Users\\Iljim\\Desktop\\AutomatasCelularesInfo\\Normal\\CSVs";
             for (int i = 0; i < 256; i++)
             {
                 StringBuilder pathPro = new();
                 switch (n) {
                     case 1:
-                        pathPro.Append(path1 + "\\" + i);
+                        pathPro.Append(paths.Path1 + "\\" + i);
                         break;
                     case 2:
-                        pathPro.Append(path2 + "\\" + i);
+                        pathPro.Append(paths.Path2 + "\\" + i);
                         break;
                     case 3:
-                        pathPro.Append(path3 + "\\" + i);
+                        pathPro.Append(paths.Path3 + "\\" + i);
                         break;
                     case 4:
-                        pathPro.Append(path4 + "\\" + i);
+                        pathPro.Append(paths.Path4 + "\\" + i);
                         break;
                     case 5:
-                        pathPro.Append(path5 + "\\" + i);
+                        pathPro.Append(paths.Path5 + "\\" + i);
                         break;
                     case 6:
                         break;
@@ -66,30 +63,25 @@ namespace Regla30.Utilidades
 
 
         public void borrarRutas(int n) {
-            string path1 = "C:\\Users\\Iljim\\Desktop\\AutomatasCelularesInfo\\Normal\\Configuraciones";
-            string path2 = "C:\\Users\\Iljim\\Desktop\\AutomatasCelularesInfo\\Normal\\Valores";
-            string path3 = "C:\\Users\\Iljim\\Desktop\\AutomatasCelularesInfo\\Normal\\Imagenes";
-            string path4 = "C:\\Users\\Iljim\\Desktop\\AutomatasCelularesInfo\\Normal\\Grafics";
-            string path5 = "C:\\Users\\Iljim\\Desktop\\AutomatasCelularesInfo\\Normal\\CSVs";
             for (int i = 0; i < 256; i++)
             {
                 StringBuilder pathPro = new();
                 switch (n)
                 {
                     case 1:
-                        pathPro.Append(path1 + "\\" + i);
+                        pathPro.Append(paths.Path1 + "\\" + i);
                         break;
                     case 2:
-                        pathPro.Append(path2 + "\\" + i);
+                        pathPro.Append(paths.Path2 + "\\" + i);
                         break;
                     case 3:
-                        pathPro.Append(path3 + "\\" + i);
+                        pathPro.Append(paths.Path3 + "\\" + i);
                         break;
                     case 4:
-                        pathPro.Append(path4 + "\\" + i);
+                        pathPro.Append(paths.Path4 + "\\" + i);
                         break;
                     case 5:
-                        pathPro.Append(path5 + "\\" + i);
+                        pathPro.Append(paths.Path5 + "\\" + i);
                         break;
                     case 6:
                         break;
@@ -132,28 +124,23 @@ namespace Regla30.Utilidades
         }
 
         public void crearArchivos(int n, string json, int i, double j) {
-            string path1 = "C:\\Users\\Iljim\\Desktop\\AutomatasCelularesInfo\\Normal\\Configuraciones";
-            string path2 = "C:\\Users\\Iljim\\Desktop\\AutomatasCelularesInfo\\Normal\\Valores";
-            string path3 = "C:\\Users\\Iljim\\Desktop\\AutomatasCelularesInfo\\Normal\\Imagenes";
-            string path4 = "C:\\Users\\Iljim\\Desktop\\AutomatasCelularesInfo\\Normal\\Grafics";
-            string path5 = "C:\\Users\\Iljim\\Desktop\\AutomatasCelularesInfo\\Normal\\CSVs";
             StringBuilder pathPro = new();
             switch (n)
             {
                 case 1:
-                    pathPro.Append(path1 + "\\" + i + "\\Archivo" + j + "pp.json");
+                    pathPro.Append(paths.Path1 + "\\" + i + "\\Archivo" + j + "pp.json");
                     break;
                 case 2:
-                    pathPro.Append(path2 + "\\" + i + "\\Archivo" + j + "pp.txt");
+                    pathPro.Append(paths.Path2 + "\\" + i + "\\Archivo" + j + "pp.txt");
                     break;
                 case 3:
-                    pathPro.Append(path3 + "\\" + i + "\\Archivo" + j + "pp.png");
+                    pathPro.Append(paths.Path3 + "\\" + i + "\\Archivo" + j + "pp.png");
                     break;
                 case 4:
-                    pathPro.Append(path4 + "\\" + i + "\\Archivo" + j + "pp.png");
+                    pathPro.Append(paths.Path4 + "\\" + i + "\\Archivo" + j + "pp.png");
                     break;
                 case 5:
-                    pathPro.Append(path5 + "\\" + i + "\\Archivo" + j + "pp.csv");
+                    pathPro.Append(paths.Path5 + "\\" + i + "\\Archivo" + j + "pp.csv");
                     break;
                 case 6:
                     break;
@@ -184,11 +171,6 @@ namespace Regla30.Utilidades
 
         }
         public StringBuilder generarL() {
-            string path1 = "C:\\Users\\Iljim\\Desktop\\AutomatasCelularesInfo\\Normal\\Configuraciones";
-            string path2 = "C:\\Users\\Iljim\\Desktop\\AutomatasCelularesInfo\\Normal\\Valores";
-            string path3 = "C:/Users/Iljim/Desktop/AutomatasCelularesInfo/Normal/Imagenes";
-            string path4 = "C:/Users/Iljim/Desktop/AutomatasCelularesInfo/Normal/Grafics";
-            string path5 = "C:\\Users\\Iljim\\Desktop\\AutomatasCelularesInfo\\Normal\\CSVs";
             StringBuilder strr = new();
             double gg = 0;
             strr.AppendLine("\\section{Anexo}");
@@ -214,7 +196,7 @@ namespace Regla30.Utilidades
                 for (int j = 0; j < 256; j++)
                 {
                     strr.AppendLine("\\begin{lstlisting}[language=json, caption=Regla "+j+ " porcentaje "+i+", label=r"+j+"pp"+i+"]");
-                    strr.AppendLine(leerJsonATxt(j, gg, path1));
+                    if (paths.Path1 != null) strr.AppendLine(leerJsonATxt(j, gg, paths.Path1));
                     strr.AppendLine("\\end{lstlisting}");
                 }
             }/*
@@ -293,7 +275,7 @@ namespace Regla30.Utilidades
                 {
                     strr.AppendLine("\\begin{figure}[ht]");
                     strr.AppendLine("\\centering");
-                    strr.AppendLine("\\includegraphics[width=\\textwidth]{"+path3+ "/" + j+ "/Archivo" + gg+"pp.png}");
+                    strr.AppendLine("\\includegraphics[width=\\textwidth]{"+ paths.Path3 + "/" + j+ "/Archivo" + gg+"pp.png}");
                     strr.AppendLine("\\caption{Imagen de regla "+j+" con porcentaje "+gg+"}");
                     strr.AppendLine("\\end{figure}");
                     strr.AppendLine("\\clearpage");
@@ -341,7 +323,7 @@ namespace Regla30.Utilidades
                     {
                         strr.AppendLine("\\begin{figure}[ht]");
                         strr.AppendLine("\\centering");
-                        strr.AppendLine("\\includegraphics[width=\\textwidth]{" + path4 + "/" + j + "/" + r + "/Graf" + gg+"pp.png}");
+                        strr.AppendLine("\\includegraphics[width=\\textwidth]{" + paths.Path4 + "/" + j + "/" + r + "/Graf" + gg+"pp.png}");
                         strr.AppendLine("\\caption{Grafico de "+sssss+" de regla " + j + " con porcentaje " + gg + "}");
                         strr.AppendLine("\\end{figure}");
                         strr.AppendLine("\\clearpage");

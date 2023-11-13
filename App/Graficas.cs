@@ -21,6 +21,7 @@ namespace Regla30.App
     {
         Intermedios inte;
         Objetos.Celulas cel;
+        private Paths paths = new();
         public Graficas(Intermedios inte, Celulas cel)
         {
             InitializeComponent();
@@ -52,14 +53,14 @@ namespace Regla30.App
         }
         private System.Windows.Forms.Timer timer;
         private void graficarAsync(int irl, double jrl, int op) {
-            string path2 = "C:\\Users\\Iljim\\Desktop\\AutomatasCelularesInfo\\Normal\\Valores";
+            
             Utilidades.CalculoGrafs calcrr = new(inte, cel);
             if (irl != 265 || jrl != 265)
             {
                 try
                 {
                     StringBuilder pathPro2 = new();
-                    pathPro2.Append(path2 + "\\" + irl + "\\Archivo" + jrl + "pp.txt");
+                    pathPro2.Append(paths.Path2 + "\\" + irl + "\\Archivo" + jrl + "pp.txt");
                     var sr = new StreamReader(pathPro2.ToString());
                     string jsonString = sr.ReadToEnd();
                     jsonString = jsonString.TrimEnd('\r', '\n');
@@ -151,7 +152,7 @@ namespace Regla30.App
         private void GuardarComoImagen(int irl, double jrl, int op)
         {
             StringBuilder pathPro = new();
-            string path4 = "C:\\Users\\Iljim\\Desktop\\AutomatasCelularesInfo\\Normal\\Grafics";
+            
             Bitmap bmp = new Bitmap(cartesianChart1.Width, cartesianChart1.Height);
 
             using (Graphics g = Graphics.FromImage(bmp))
@@ -159,7 +160,7 @@ namespace Regla30.App
                 cartesianChart1.DrawToBitmap(bmp, new Rectangle(0, 0, bmp.Width, bmp.Height));
             }
             
-            pathPro.Append(path4 + "\\" + irl + "\\"+op);
+            pathPro.Append(paths.Path4 + "\\" + irl + "\\"+op);
             if (Directory.Exists(pathPro.ToString()))
             {
                 Console.WriteLine("That path exists already.");

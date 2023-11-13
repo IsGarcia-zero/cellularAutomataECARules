@@ -19,6 +19,7 @@ namespace Regla30
 {
     public partial class Canvas : Form
     {
+        private Paths paths = new();
         private Objetos.Celulas cel;
         private Objetos.Intermedios inte;
         private int longitud = 80;
@@ -60,8 +61,7 @@ namespace Regla30
         private void pintarMatriz(int irl, double jrl)
         {
             StringBuilder pathPro = new();
-            string path2 = "C:\\Users\\Iljim\\Desktop\\AutomatasCelularesInfo\\Normal\\Valores";
-            string path3 = "C:\\Users\\Iljim\\Desktop\\AutomatasCelularesInfo\\Normal\\Imagenes";
+
             longitudPixel = (cel.TamCadena > 1000 || cel.T > 1000) ? (Math.Max(cel.TamCadena, cel.T) / Math.Max(cel.TamCadena, cel.T)) : (originalHeight / Math.Max(cel.T, cel.TamCadena));
             Bitmap bmp = (cel.TamCadena > 1000 || cel.T > 1000) ? new Bitmap(cel.TamCadena + 1, cel.T + 1) : new Bitmap(originalWidth, originalHeight);
             if (irl != 265 || jrl != 265)
@@ -69,7 +69,7 @@ namespace Regla30
                 try
                 {
                     StringBuilder pathPro2 = new();
-                    pathPro2.Append(path2 + "\\" + irl + "\\Archivo" + jrl + "pp.txt");
+                    pathPro2.Append(paths.Path2 + "\\" + irl + "\\Archivo" + jrl + "pp.txt");
                     var sr = new StreamReader(pathPro2.ToString());
                     string jsonString = sr.ReadToEnd();
                     inte.CadenasReales = jsonString.Split("\n");
@@ -100,7 +100,7 @@ namespace Regla30
                 }
             }
             dibujoAutomata.Image = bmp;
-            pathPro.Append(path3 + "\\" + irl + "\\Archivo" + jrl + "pp.png");
+            pathPro.Append(paths.Path3 + "\\" + irl + "\\Archivo" + jrl + "pp.png");
             Bitmap originalImagen = (Bitmap)dibujoAutomata.Image;
             originalImagen.RotateFlip(RotateFlipType.Rotate90FlipNone);
             dibujoAutomata.Image = originalImagen;
@@ -279,14 +279,12 @@ namespace Regla30
         {
             CalculoGrafs calcrr = new(inte, cel);
             Utilidades.TodasReglas rrr = new();
-            string path2 = "C:\\Users\\Iljim\\Desktop\\AutomatasCelularesInfo\\Normal\\Valores";
-            string path5 = "C:\\Users\\Iljim\\Desktop\\AutomatasCelularesInfo\\Normal\\CSVs";
             if (irl != 265 || jrl != 265)
             {
                 try
                 {
                     StringBuilder pathPro2 = new();
-                    pathPro2.Append(path2 + "\\" + irl + "\\Archivo" + jrl + "pp.txt");
+                    pathPro2.Append(paths.Path2 + "\\" + irl + "\\Archivo" + jrl + "pp.txt");
                     var sr = new StreamReader(pathPro2.ToString());
                     string jsonString = sr.ReadToEnd();
                     jsonString = jsonString.TrimEnd('\r', '\n');

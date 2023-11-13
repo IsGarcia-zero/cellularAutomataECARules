@@ -8,6 +8,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Regla30.Datos;
 
 namespace Regla30.App
 {
@@ -17,11 +18,13 @@ namespace Regla30.App
         Objetos.Intermedios inte;
         private Rectangle[] rectangulos;
         private Boolean[] estadoCeldas;
-        public DibujarCadena(Objetos.Celulas cel, Objetos.Intermedios inte)
+        private DatsAtrct dats;
+        public DibujarCadena(Objetos.Celulas cel, Objetos.Intermedios inte, DatsAtrct dats)
         {
             InitializeComponent();
             this.cel = cel;
             this.inte = inte;
+            this.dats = dats;
             panel1.Paint += panel1_Paint;
             panel1.MouseClick += panel1_MouseClick;
 
@@ -82,7 +85,7 @@ namespace Regla30.App
 
         private void daleGo_Click(object sender, EventArgs e)
         {
-            Utilidades.Reglas regl = new(cel, inte);
+            Utilidades.Reglas regl = new(cel, inte, dats);
             Canvas canvas = new(cel, inte);
             StringBuilder sb = new();
             foreach (bool s in estadoCeldas)

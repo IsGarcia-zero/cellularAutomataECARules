@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Regla30.Datos;
 
 namespace Regla30.Utilidades
 {
@@ -12,114 +13,51 @@ namespace Regla30.Utilidades
         Intermedios inter;
         Objetos.Celulas cel;
         TodasReglas todasrrr = new();
-        public Reglas(Celulas cel, Intermedios inter) { 
+        DatsAtrct dArAtrct;
+        
+        public Reglas(Celulas cel, Intermedios inter, DatsAtrct dArAtrct) { 
             this.cel = cel;
             this.inter = inter;
+            this.dArAtrct = dArAtrct;
         }
         public void conversion(int irl, double jrl) {
             String reglaConvertida = Convert.ToString(cel.Regla, 2).Trim();
-            int mayo = 0;
-            switch (cel.NumeroMayor) {
-                case 255:
-                    mayo = 8;
-                    break;
-                case 511:
-                    mayo = 9;
-                    break;
-                case 1023:
-                    mayo = 10;
-                    break;
-                case 2047:
-                    mayo = 11;
-                    break;
-                case 4095:
-                    mayo = 12;
-                    break;
-                case 8191:
-                    mayo = 13;
-                    break;
-                case 16383:
-                    mayo = 14;
-                    break;
-                case 32767:
-                    mayo = 15;
-                    break;
-                case 65535:
-                    mayo = 16;
-                    break;
-                case 131071:
-                    mayo = 17;
-                    break;
-                case 262143:
-                    mayo = 18;
-                    break;
-                case 524287:
-                    mayo = 19;
-                    break;
-                case 1048575:
-                    mayo = 20;
-                    break;
-                case 2097151:
-                    mayo = 21;
-                    break;
-                case 4194303:
-                    mayo = 22;
-                    break;
-                case 8388607:
-                    mayo = 23;
-                    break;
-                case 16777215:
-                    mayo = 24;
-                    break;
-                case 33554431:
-                    mayo = 25;
-                    break;
-                case 67108863:
-                    mayo = 26;
-                    break;
-                case 134217727:
-                    mayo = 27;
-                    break;
-                case 268435455:
-                    mayo = 28;
-                    break;
-                case 536870911:
-                    mayo = 29;
-                    break;
-                case 1073741823:
-                    mayo = 30;
-                    break;
-                case 2147483647:
-                    mayo = 31;
-                    break;
-                case 4294967295:
-                    mayo = 32;
-                    break;
-                case 8589934591:
-                    mayo = 33;
-                    break;
-                case 17179869183:
-                    mayo = 34;
-                    break;
-                case 34359738367:
-                    mayo = 35;
-                    break;
-                case 68719476735:
-                    mayo = 36;
-                    break;
-                case 137438953471:
-                    mayo = 37;
-                    break;
-                case 274877906943:
-                    mayo = 38;
-                    break;
-                case 549755813887:
-                    mayo = 39;
-                    break;
-                default:
-                    mayo = 8;
-                    break;
-            }
+            int mayo = cel.NumeroMayor switch
+            {
+                255 => 8,
+                511 => 9,
+                1023 => 10,
+                2047 => 11,
+                4095 => 12,
+                8191 => 13,
+                16383 => 14,
+                32767 => 15,
+                65535 => 16,
+                131071 => 17,
+                262143 => 18,
+                524287 => 19,
+                1048575 => 20,
+                2097151 => 21,
+                4194303 => 22,
+                8388607 => 23,
+                16777215 => 24,
+                33554431 => 25,
+                67108863 => 26,
+                134217727 => 27,
+                268435455 => 28,
+                536870911 => 29,
+                1073741823 => 30,
+                2147483647 => 31,
+                4294967295 => 32,
+                8589934591 => 33,
+                17179869183 => 34,
+                34359738367 => 35,
+                68719476735 => 36,
+                137438953471 => 37,
+                274877906943 => 38,
+                549755813887 => 39,
+                _ => 8
+            };
             if (reglaConvertida.Length < mayo) {
                 int faltantes = mayo - reglaConvertida.Length;
                 for (int i = 0; i < faltantes; i++)
@@ -143,16 +81,25 @@ namespace Regla30.Utilidades
                 }
             }
             inter.ReglaComponentes = componentes;
-            inter.CadenasReales = conjuntoResultados();
-            StringBuilder otroSting = new();
-            foreach (String s in inter.CadenasReales) {
-                otroSting.AppendLine(s);
+            if (jrl == 454213 && irl == 454213)
+            {
+                dArAtrct.CadenaAtrctList = conjuntoResultados2();
             }
-            todasrrr.crearArchivos(2, otroSting.ToString(), irl, jrl);
+            else
+            {
+                inter.CadenasReales = conjuntoResultados();
+                StringBuilder otroSting = new();
+                foreach (String s in inter.CadenasReales)
+                {
+                    otroSting.AppendLine(s);
+                }
+                todasrrr.crearArchivos(2, otroSting.ToString(), irl, jrl);
+            }
             if ((irl == 255&&jrl == 95) || cel.T > 5000 || cel.TamCadena> 5000)
             {
                 Console.Beep(100, 5000);
             }
+            
         }
         private String[] conjuntoResultados() {
             String[] final = new String[cel.T + 1];
@@ -198,56 +145,96 @@ namespace Regla30.Utilidades
             
             return final;
         }
-        private String union(String sd2) {
+        private List<CadenaAtr> conjuntoResultados2()
+        {
+            List<CadenaAtr> cadenaAtrctList = new();
+            Atractores atractores = new(inter, cel);
+            List<Universo> uni = atractores.calcularPosibilidades(cel.TamCadena);
             
-            int conv = Convert.ToInt32(sd2, 2);
-            if (inter.ReglaComponentes[conv]) {
-                return "1";
-            }
-            else { 
-                return "0";
-            }
-        }
-        public List<List<AtractorInfo>> ObtenerAtractoresEnTodasLasGeneraciones(int irl, double jrl)
-        {
-            conversion(irl, jrl);
-
-            List<List<AtractorInfo>> atractoresPorGeneracion = new List<List<AtractorInfo>>();
-
-            // Buscar atractores en cada generación
-            for (int i = 0; i < inter.CadenasReales.Length; i++)
+            List<String> final = new();
+            final.Insert(0, cel.Cadena);
+            List<String> aux = new();
+            int i = 0;
+            while (atractores.estaLleno(cel.TamCadena, uni))
             {
-                List<AtractorInfo> atractores = BuscarAtractores(inter.CadenasReales[i]);
-                atractoresPorGeneracion.Add(atractores);
-            }
-
-            return atractoresPorGeneracion;
-        }
-        private List<AtractorInfo> BuscarAtractores(string cadena)
-        {
-            List<AtractorInfo> atractores = new List<AtractorInfo>();
-            Dictionary<string, int> frecuencia = new Dictionary<string, int>();
-
-            for (int i = 0; i < cadena.Length; i++)
-            {
-                for (int j = i + 1; j <= cadena.Length; j++)
+                Universo universo = new Universo();
+                int f = 0;
+                foreach (Universo pepe in uni)
                 {
-                    string subcadena = cadena.Substring(i, j - i);
-                    if (frecuencia.ContainsKey(subcadena))
+                    if (final[i] == pepe.EstadoActual && pepe.EstaOcupado == false)
                     {
-                        int inicio = frecuencia[subcadena];
-                        int longitud = i - inicio;
-                        atractores.Add(new AtractorInfo { Inicio = inicio, Longitud = longitud, Atractor = subcadena });
+                        uni[f].EstaOcupado = true;
+                        break;
+                    }
+                    if (final[i] == pepe.EstadoActual && pepe.EstaOcupado)
+                    {
+                        int hg = 0;
+                        foreach (Universo coincidencias in uni)
+                        {
+                            if (!coincidencias.EstaOcupado)
+                            {
+                                final[i] = coincidencias.EstadoActual;
+                                uni[hg].EstaOcupado = true;
+                                break;
+                            }
+
+                            hg++;
+                        }
+                        break;
+                    }
+                    f++;
+                }
+                aux.Insert(i, final[i]);
+                char[] cadenaMala = new char[cel.Cadena.Length];
+                cadenaMala = aux[i].ToCharArray();
+                StringBuilder aux2 = new();
+                for (int j = 0; j < cadenaMala.Length; j++)
+                {
+                    var sd = new StringBuilder();
+                    if (j == 0)
+                    {
+
+                        sd.Append((cadenaMala[cadenaMala.Length - 1]).ToString());
+                        sd.Append(cadenaMala[j].ToString());
+                        sd.Append(cadenaMala[j + 1].ToString());
+
+                        aux2.Append(union(sd.ToString()));
+                    }
+                    else if (j == cadenaMala.Length - 1)
+                    {
+                        sd.Append(cadenaMala[j - 1].ToString());
+                        sd.Append(cadenaMala[j].ToString());
+                        sd.Append(cadenaMala[0].ToString());
+
+                        aux2.Append(union(sd.ToString()));
                     }
                     else
                     {
-                        frecuencia[subcadena] = i;
+                        sd.Append(cadenaMala[j - 1].ToString());
+                        sd.Append(cadenaMala[j].ToString());
+                        sd.Append(cadenaMala[j + 1].ToString());
+
+                        aux2.Append(union(sd.ToString()));
                     }
                 }
+                
+                
+                final.Insert(i + 1, aux2.ToString());
+                CadenaAtr s = new();
+                s.CadenaAnterior = final[i];
+                s.CadenaActual = final[i + 1];
+                cadenaAtrctList.Add(s);
+                i++;
             }
 
-            return atractores;
+            return cadenaAtrctList;
         }
+        private String union(String sd2)
+        {
+            int conv = Convert.ToInt32(sd2, 2);
+            return inter.ReglaComponentes[conv] ? "1" : "0";
+        }
+        
 
     }
 }

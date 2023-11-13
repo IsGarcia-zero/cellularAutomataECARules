@@ -6,6 +6,7 @@ using System.IO;
 using System.Security;
 using System.Text;
 using System.Text.Json;
+using Regla30.Datos;
 
 namespace Regla30
 {
@@ -22,10 +23,10 @@ namespace Regla30
         Objetos.Celulas cel = new();
         Objetos.Intermedios inte = new();
         Utilidades.RandomPro rand = new();
-
+        DatsAtrct dats = new();
         private void canvas_Click(object sender, EventArgs e)
         {
-            Utilidades.Reglas regl = new(cel, inte);
+            Utilidades.Reglas regl = new(cel, inte, dats);
             Canvas canvas = new Canvas(cel, inte);
             try
             {
@@ -96,8 +97,8 @@ namespace Regla30
 
         private void dibujarCadena_Click(object sender, EventArgs e)
         {
-            Utilidades.Reglas regl = new(cel, inte);
-            App.DibujarCadena dibCadena = new(cel, inte);
+            Utilidades.Reglas regl = new(cel, inte, dats);
+            App.DibujarCadena dibCadena = new(cel, inte, dats);
             try
             {
                 cel.Regla = Convert.ToInt32(regla.Text);
@@ -202,7 +203,7 @@ namespace Regla30
         private void allBut_Click(object sender, EventArgs e)
         {
             Canvas canvas = new Canvas(cel, inte);
-            Utilidades.Reglas regl = new(cel, inte);
+            Utilidades.Reglas regl = new(cel, inte, dats);
             Utilidades.TodasReglas rrr = new();
             rrr.borrarRutas(1);
             rrr.crearRutas(1);
@@ -247,8 +248,8 @@ namespace Regla30
 
         private void grafics_Click(object sender, EventArgs e)
         {
-            Utilidades.Reglas regl = new(cel, inte);
-            Grafo grafo = new(cel, inte);
+            Utilidades.Reglas regl = new(cel, inte, dats);
+            Grafo grafo = new(cel, inte, dats);
             try
             {
                 cel.Regla = Convert.ToInt32(regla.Text);
@@ -259,8 +260,7 @@ namespace Regla30
                 cel.Fondo = cel.Celula.Equals(Color.White) ? Color.Black : Color.White;
                 cel.Celula = cel.Fondo.Equals(Color.White) ? Color.Black : Color.White;
                 cel.PorcentajeRandom = hScrollBar1.Value;
-                //string jsonString = JsonSerializer.Serialize(cel);
-
+                regl.conversion(454213, 454213);
                 if (comprovacion()) MessageBox.Show("Algun campo no esta llenado correctamente");
                 else grafo.ShowDialog();
             }
