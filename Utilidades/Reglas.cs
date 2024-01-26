@@ -1,7 +1,9 @@
 ﻿using Regla30.Objetos;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Net.PeerToPeer.Collaboration;
 using System.Text;
 using System.Threading.Tasks;
 using Regla30.Datos;
@@ -14,7 +16,7 @@ namespace Regla30.Utilidades
         Objetos.Celulas cel;
         TodasReglas todasrrr = new();
         DatsAtrct dArAtrct;
-        
+        Paths paths = new();
         public Reglas(Celulas cel, Intermedios inter, DatsAtrct dArAtrct) { 
             this.cel = cel;
             this.inter = inter;
@@ -66,8 +68,7 @@ namespace Regla30.Utilidades
                 }
             }
             Boolean[] componentes = new Boolean[reglaConvertida.Length];
-            char[] reverso = new char[reglaConvertida.Length];
-            reverso = reglaConvertida.ToCharArray();
+            char[] reverso = reglaConvertida.ToCharArray();
             Array.Reverse(reverso);
             for (int i = 0; i < reglaConvertida.Length; i++)
             {
@@ -147,6 +148,8 @@ namespace Regla30.Utilidades
         }
         private List<CadenaAtr> conjuntoResultados2()
         {
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
             List<CadenaAtr> cadenaAtrctList = new();
             Atractores atractores = new(inter, cel);
             List<Universo> uni = atractores.calcularPosibilidades(cel.TamCadena);
@@ -157,8 +160,8 @@ namespace Regla30.Utilidades
             int i = 0;
             while (atractores.estaLleno(cel.TamCadena, uni))
             {
-                Universo universo = new Universo();
                 int f = 0;
+                
                 foreach (Universo pepe in uni)
                 {
                     if (final[i] == pepe.EstadoActual && pepe.EstaOcupado == false)
@@ -226,7 +229,9 @@ namespace Regla30.Utilidades
                 cadenaAtrctList.Add(s);
                 i++;
             }
-
+            stopwatch.Stop();
+            TimeSpan ts = stopwatch.Elapsed;
+            File.AppendAllText(paths.Path6 + "\\estatus2.txt", $"Tomo {ts.Minutes} min");
             return cadenaAtrctList;
         }
         private String union(String sd2)

@@ -12,6 +12,7 @@ using System.Windows.Forms;
 using Regla30.Datos;
 using System.Diagnostics;
 using LiveChartsCore.Measure;
+using Timer = System.Threading.Timer;
 
 namespace Regla30.App
 {
@@ -31,19 +32,41 @@ namespace Regla30.App
             this.KeyPreview = true;
             this.KeyPress += new KeyPressEventHandler(Grafo_KeyPress);
         }
+        private Random random = new Random();
+
+        private string RandomColor()
+        {
+            return String.Format("#{0:X6}", random.Next(0x1000000)); // Genera un color hexadecimal aleatorio
+        }
 
         private void graffo_Click(object sender, EventArgs e)
         {
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
             var cadenaDOT = new StringBuilder("digraph G {");
-            for (int i = 0; i < dats.CadenaAtrctList.Count - 1; i++)
+            cadenaDOT.Append("bgcolor=\"black\";");
+            for (int i = 0; i < dats.CadenaAtrctList.Count ; i++)
             {
-                cadenaDOT.AppendLine($"\"{dats.CadenaAtrctList[i].CadenaAnterior}\" -> \"{dats.CadenaAtrctList[i].CadenaActual}\";");
+                // Generar colores aleatorios para cada nodo
+                int r = random.Next(0, 256);
+                int g = random.Next(0, 256);
+                int b = random.Next(0, 256);
+
+                string color = $"#{r:X2}{g:X2}{b:X2}";
+
+                // Añadir los nodos con borde de color aleatorio y fondo negro
+                cadenaDOT.AppendLine($"\"{dats.CadenaAtrctList[i].CadenaAnterior}\" [style=filled, fillcolor=\"{color}\"];");
+                cadenaDOT.AppendLine($"\"{dats.CadenaAtrctList[i].CadenaActual}\" [style=filled, fillcolor=\"{color}\"]");
+
+                // Añadir las aristas
+                cadenaDOT.AppendLine($"\"{dats.CadenaAtrctList[i].CadenaAnterior}\" -> \"{dats.CadenaAtrctList[i].CadenaActual}\"[color=\"{color}\"];");
             }
+
             cadenaDOT.AppendLine("}");
             cadenaDOT = cadenaDOT.Replace("\r\n", "");
             File.WriteAllText(paths.Path6 + "\\grafico.dot", cadenaDOT.ToString());
-            Process process = new Process();
-            process.StartInfo.FileName = "dot";
+            Process process = new Process();    
+            process.StartInfo.FileName = "circo";
             process.StartInfo.Arguments = $"-Tpng {paths.Path6 + "\\grafico.dot"} -o {paths.Path6 + "\\graph.png"}";
             process.StartInfo.RedirectStandardOutput = true;
             process.StartInfo.RedirectStandardError = true;
@@ -62,12 +85,16 @@ namespace Regla30.App
 
 
             process.Close();
-
+            stopwatch.Stop();
+            TimeSpan ts = stopwatch.Elapsed;
             pictureBox1.Image = Image.FromFile(paths.Path6 + "\\graph.png");
-
+            File.AppendAllText(paths.Path6 + "\\estatus.txt", $"Tomo {ts.Minutes} min");
         }
 
-
+        private Int32 Conversion(string cadena)
+        {
+            return Convert.ToInt32(cadena, 2);
+        }
 
         private void Grafo_KeyPress(object sender, KeyPressEventArgs e)
         {
